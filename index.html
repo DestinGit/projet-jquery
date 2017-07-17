@@ -11,10 +11,28 @@ and open the template in the editor.
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            div{
+                border: 1px salmon solid;
+                text-align: center;
+            }
+        </style>
     </head>
-    <body>
-        <div>TODO write content</div>
+    <body class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">Premier section</div>
+            <div class="col-md-6">deuxième section</div>
+            <div class="col-md-6">Troisième section</div>
+        </div>
         <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+
+        <script>
+$(document).ready(function() {
+    var $div = $('.row div').text('coucou');
+    
+    console.log($div);
+});
+        </script>
     </body>
 </html>
