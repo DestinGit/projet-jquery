@@ -13,26 +13,99 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             div{
-                border: 1px salmon solid;
-                text-align: center;
+                /*border: 1px salmon solid;*/
+                /*text-align: center;*/
+            }
+            #menu>li:hover {
+                cursor: pointer;
+            }
+            #menu ul {
+                cursor: auto;
             }
         </style>
     </head>
     <body class="container-fluid">
+        <button class="btn btn-primary" id="toggle-div">Masquer/Afficher</button>
         <div class="row">
             <div class="col-md-offset-3 col-md-6">Premier section</div>
             <div class="col-md-6">deuxième section</div>
             <div class="col-md-6">Troisième section</div>
         </div>
+
+        <div class="col-md-6">
+            <ul id="menu" class="list-group">
+                <li class="list-group-item">Fruits
+                    <ul class="list-group">
+                        <li class="list-group-item">Pommes</li>
+                        <li class="list-group-item">Poires</li>
+                        <li class="list-group-item">Mangues</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Légumes
+                    <ul class="list-group">
+                        <li class="list-group-item">Courgettes</li>
+                        <li class="list-group-item">Aubergines</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Légumineuses
+                    <ul class="list-group">
+                        <li class="list-group-item">Je ne sais pas</li>
+                        <li class="list-group-item">Lentilles</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <input type="text" id="input-text">
+            <button class="btn btn-primary" id="add-liste">Ajouter</button>
+            <ul id="liste" class="list-group">
+            </ul>
+
+        </div>
         <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 
         <script>
-$(document).ready(function() {
-    var $div = $('.row div').text('coucou');
-    
-    console.log($div);
-});
+            $(document).ready(function () {
+                var colors = ['#CC00FF', '#F00', '#22FFAA'];
+
+                var $div = $('.row div').text(function (index, oldValue) {
+                    return (index + 1) + ' ' + oldValue;
+                });
+
+                $div.css('color', function (index) {
+                    return colors[index % colors.length];
+                });
+
+                $('#toggle-div').click(function () {
+                    $div.toggle('2000');
+                });
+                $('#add-liste').click(function () {
+                    var val = $('#input-text').val();
+                    $('#liste').append('<li>' + val + '</li>');
+
+                    $('#input-text').val('');
+                });
+
+
+                var $secondLevel = $('#menu ul');
+                var $firstLevel = $('#menu>li');
+
+                $firstLevel.css('cursor', 'pointer');
+                $secondLevel.find('li').css('background', '#000');
+                //Masquer le 2e niveau
+                $secondLevel.hide();
+                // Affichage ou masquage du 1er niveau
+                $firstLevel.click(function () {
+                    $(this).children().toggle('500');
+                    $(this).toggleClass('active');
+                    $firstLevel.not($(this))
+                            .removeClass('active')
+                            .children()
+                            .hide(500);
+                });
+            });
         </script>
     </body>
 </html>
