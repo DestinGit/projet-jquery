@@ -117,6 +117,29 @@ and open the template in the editor.
         $('#thumb').delegate('img','click', affichageImg);
         $('#image-precedente').click(imagePrecedente);
         $('#image-suivante').click(imageSuivante);
+
+        $('#toggle-div').click(function () {
+            $('.bloc').animate({
+                width: '50%',
+                height: '50%',
+                opacity: '.5'
+            }, 500)
+                .animate({
+                    width: '70%',
+                    height: '70%',
+                    opacity: '.5'
+                }, 1000)
+                .animate({
+                    width: '30%',
+                    height: '30%',
+                    opacity: '.5'
+                }, 1000)
+                .animate({
+                    width: '80%',
+                    height: '80%',
+                    opacity: '1'
+                }, 1000);
+        });
     });
 
 </script>
