@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>Première page JQuery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <style>
+        .bloc {
+            background: #a76ee8;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+
+
+<button class="btn btn-primary" id="toggle-div">Masquer/Afficher</button>
+<button class="btn btn-primary" id="image-precedente">Precedent</button>
+<button class="btn btn-primary" id="image-suivante">Suivant</button>
+
+<div class="row">
+
+    <div class="col-md-offset-3 col-md-6">
+        <img src="photos/photo-01.jpg" class="bloc">
+        <div id="message"></div>
+    </div>
+
+</div>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        function afficheImage(imgName) {
+            $('.bloc').fadeOut(500, function () {
+                $(this).attr('src', 'photos/'+imgName+'.jpg')
+            })
+            .fadeIn(500, function () {
+                $('#message').text(imgName+'.jpg');
+            });
+        }
+
+        var nbImages = 9;
+        var imageEnCours = 1;
+
+        function imageSuivante() {
+            imageEnCours++;
+            if(imageEnCours > nbImages) {
+                imageEnCours = 1;
+            }
+            afficheImage('photo-0' + imageEnCours);
+        }
+
+        function imagePrecedente() {
+            imageEnCours--;
+            if (imageEnCours < 1) {
+                imageEnCours = 9;
+            }
+            afficheImage('photo-0' + imageEnCours);
+        }
+
+        $('#image-precedente').click(imagePrecedente);
+        $('#image-suivante').click(imageSuivante);
+    });
+
+</script>
+</body>
+
+</html>
