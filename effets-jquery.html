@@ -18,8 +18,18 @@ and open the template in the editor.
             background: #a76ee8;
             width: 500px;
             height: 500px;
-            border-radius: 50%;
+            border-radius: 5%;
             display: block;
+        }
+        #thumb img {
+            cursor: pointer;
+        }
+        #img-div {
+            margin-bottom: 15px;
+        }
+
+        #img-div div {
+            text-align: center;
         }
     </style>
 </head>
@@ -33,11 +43,14 @@ and open the template in the editor.
 
 <div class="row">
 
-    <div class="col-md-offset-3 col-md-6">
-        <img src="photos/photo-01.jpg" class="bloc">
+    <div class="col-md-offset-3 col-md-6" id="img-div">
         <div id="message"></div>
+        <img src="photos/photo-01.jpg" class="bloc">
     </div>
 
+    <div class="col-md-4 col-md-offset-3" id="thumb">
+        <div class="row"></div>
+    </div>
 </div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -46,34 +59,62 @@ and open the template in the editor.
 <script>
 
     $(document).ready(function () {
-        function afficheImage(imgName) {
-            $('.bloc').fadeOut(500, function () {
-                $(this).attr('src', 'photos/'+imgName+'.jpg')
-            })
-            .fadeIn(500, function () {
-                $('#message').text(imgName+'.jpg');
-            });
-        }
-
         var nbImages = 9;
         var imageEnCours = 1;
 
+        var photos = [];
+        for(var i = 1; i <=9; i++) {
+            var myImg = new Image();
+            myImg.src = 'photos/photo-0' + i + '.jpg';
+            photos.push(myImg);
+        }
+        function afficheImage(imgIndex) {
+            $('.bloc').fadeOut(500, function () {
+                $(this).attr('src', photos[imgIndex].src)
+            })
+                .fadeIn(500, function () {
+                    $('#message').text(photos[imgIndex].src);
+                });
+
+//            if(typeof lastChar !== 'undefined') {
+//                imageEnCours = lastChar;
+//            }
+        }
+
+
         function imageSuivante() {
             imageEnCours++;
-            if(imageEnCours > nbImages) {
-                imageEnCours = 1;
+            if (imageEnCours > nbImages-1) {
+                imageEnCours = 0;
             }
-            afficheImage('photo-0' + imageEnCours);
+            afficheImage(imageEnCours);
         }
 
         function imagePrecedente() {
             imageEnCours--;
-            if (imageEnCours < 1) {
-                imageEnCours = 9;
+            if (imageEnCours < 0) {
+                imageEnCours = 8;
             }
-            afficheImage('photo-0' + imageEnCours);
+            console.log(imageEnCours);
+            afficheImage(imageEnCours);
         }
 
+        function affichageImg() {
+            var img = $(this).attr('src').split('.');
+            var img2 = img[0].split('/');
+            var lastChar = img2[1].substr(img2[1].length - 1, 1);
+
+            afficheImage(lastChar - 1);
+        }
+        var $thumb = $('#thumb div');
+        for(var i=1; i <= nbImages; i++) {
+            $('<img>').attr({
+                src: 'photos/photo-0' + i + '.jpg',
+                class: 'col-md-2'
+            }).appendTo($thumb);
+        }
+
+        $('#thumb').delegate('img','click', affichageImg);
         $('#image-precedente').click(imagePrecedente);
         $('#image-suivante').click(imageSuivante);
     });
